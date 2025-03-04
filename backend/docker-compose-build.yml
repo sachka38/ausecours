@@ -1,0 +1,33 @@
+services:
+  
+  bdd-build:
+    container_name: bdd_build
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: bddname
+      MYSQL_USER: roger
+      MYSQL_PASSWORD: regor
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+  
+  backend-build:
+    container_name: backend_build
+    restart: always
+    build: .
+    depends_on:
+      bdd-build:
+        condition: service_healthy
+    environment:
+      BDD_HOST: bdd-build
+    ports:
+      - 23000:23000
+
+  adminer-local:
+    container_name: adminer_build_local
+    image: adminer
+    ports:
+      - 8080:8080
