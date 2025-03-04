@@ -1,23 +1,23 @@
 services:
-  demo_bdd:
-    container_name: demo_mariadb
+  master-bdd:
+    container_name: master-bdd
     image: mariadb:latest
-    restart: always
     volumes:
       - ./mysql:/var/lib/mysql
-    ports:
-      - 3306:3306
     environment:
       MARIADB_ROOT_PASSWORD: TOOR
       MARIADB_DATABASE: bddname
       MARIADB_USER: roger
       MARIADB_PASSWORD: regor
-    profiles: [local, prod, dev]
-
-  demo_adminer:
-    container_name: demo_adminer
-    image: adminer
+    
+  master-back:
+    container_name: master-back
+    image: back-ausecours:latest
     restart: always
+    depends_on: 
+      - master-bdd
     ports:
-      - 8080:8080
-    profiles: [local, dev]
+      - 23000:23000
+    environment:
+      BDD_HOST: master-bdd
+      BDD_PORT: 3306
