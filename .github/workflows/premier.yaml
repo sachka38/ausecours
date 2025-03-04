@@ -12,11 +12,18 @@ jobs:
       - name: The First
         run: |
           echo Hello
-          return 1
-
+          
   test2:
     needs: [test]
     runs-on: ubuntu-latest
     steps:
       - name: The Second
         run: echo Good Bye
+
+  Biderie:
+    needs: [test2]
+    uses: ./.github/workflows/ghcr.yaml
+    secrets: inherit
+    permissions:
+      contents: read
+      packages: write

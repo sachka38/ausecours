@@ -1,0 +1,40 @@
+name: Github Package
+
+on:
+  workflow_call
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{github.repository}}
+
+jobs:
+  bide:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Just for test1
+        run: |
+          ls -al
+          pwd
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Just for test2
+        run: |
+          ls -al
+          pwd
+
+      - name: Registry Login
+        uses: docker/login-action@v3
+        with:
+          registry: ${{env.REGISTRY}}
+          username: ${{github.actor}}
+          password: ${{secrets.BIDE_PAT}}
+
+      - name: Build and push to GH Package
+        uses: docker/build-push-action@v4
+        with:
+          context: backend
+          push: true
+          tags: ${{env.REGISTRY}}/${{github.actor}}/back-ausecours:latest
+          
