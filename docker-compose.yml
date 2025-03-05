@@ -12,7 +12,7 @@ services:
     
   master-back:
     container_name: master-back
-    image: back-ausecours:latest
+    image: ghcr.io/floriansp40/back-ausecours:latest
     restart: always
     depends_on: 
       - master-bdd
