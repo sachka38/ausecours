@@ -38,5 +38,5 @@ jobs:
           password: ${{secrets.PASSWORD}}
 
           script: |
-            docker pull ghcr.io/floriansp40/back-ausecours:latest
+            docker pull ghcr.io/sachka38/back-ausecours:latest
             docker-compose up -d
